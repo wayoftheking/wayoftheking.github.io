@@ -1,1 +1,1 @@
-# wotk
+# wayoftheking.github.io
