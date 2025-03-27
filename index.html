@@ -7,8 +7,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #D1B58E;
-            color: #3D3A40;
+            background-color: #2a2d2e;
+            color: #2a2d2e;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
@@ -18,17 +18,21 @@
             flex: 1;
         }
         nav {
-            background-color: #E3D9C6;
+            background-color: #96B95D;
         }
         .jumbotron {
-            background: url('todo.svg') no-repeat center center;
+            background: url('home.svg') no-repeat center center;
             background-size: cover;
             padding: 12rem 2rem;
             text-align: center;
+            min-height: 90vh;
+            border: none;
         }
         .btn-primary {
-            background-color: #2D6A4F;
-            border-color: #2D6A4F;
+          /*background-color: #00ACC1;
+            border-color: #00ACC1;*/
+            background-color: #96B95D;
+            border-color: #96B95D;*/
         }
         .btn-primary:hover {
             background-color: #5F8B7A;
@@ -37,7 +41,8 @@
         footer {
             padding: 1rem 0;
             text-align: center;
-            background-color: #3D3A40;
+            background-color: #2a2d2e;
+            border: none;
         }
         footer a {
             color: #FFFFFF;
@@ -59,28 +64,48 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#home">Home</a>
+                        <a class="nav-link" href="#home" onclick="navigate(event, 'home.html')">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="impressum.html">Impressum</a>
+                        <a class="nav-link" href="#impressum" onclick="navigate(event, 'impressum.html')">Impressum</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <main id="home">
-        <div class="jumbotron">
-            <h1 class="display-4"><b>wayoftheking.com</b></h1>
-            <p class="lead">Newsletter sign up below...</p>
-            <a class="btn btn-primary btn-lg" href="https://kgdm.substack.com/" role="button"><b>Newsletter</b></a>
-        </div>
+    <main id="content">
+        <!-- Content will be loaded here -->
     </main>
 
     <footer>
-        <p>wayoftheking.com</p>
-
+        <p class="font-color: #FFFFFF">wayoftheking.com</p>
     </footer>
+    
+    
+    <script>
+        async function navigate(event, pageUrl) {
+            event.preventDefault();
+            try {
+                const response = await fetch(pageUrl);
+                const html = await response.text();
+                document.getElementById('content').innerHTML = html;
+                history.pushState(null, '', `#${pageUrl.replace('.html','')}`);
+            } catch (err) {
+                document.getElementById('content').innerHTML = '<div class="container my-5"><h2>Error</h2><p>Failed to load content.</p></div>';
+            }
+        }
+
+        window.addEventListener('popstate', () => {
+            let page = location.hash.substring(1) || 'home';
+            navigate(new Event('popstate'), `${page}.html`);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            let page = location.hash.substring(1) || 'home';
+            navigate(new Event('load'), `${page}.html`);
+        });
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.js"></script>
