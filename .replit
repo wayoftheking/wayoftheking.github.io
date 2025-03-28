@@ -1,7 +1,11 @@
-modules = ["python-3.11"]
+
+modules = ["python-3.11:v14-20240115-e9303c9"]
 
 [nix]
 channel = "stable-24_05"
+
+[deployment]
+run = ["python3", "-m", "http.server", "5000", "--bind", "0.0.0.0"]
 
 [workflows]
 runButton = "Run"
