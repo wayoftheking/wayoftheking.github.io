@@ -1,11 +1,9 @@
-
-modules = ["python-3.11:v14-20240115-e9303c9"]
+modules = ["web", "nodejs-20", "nix", "python-base-3.13"]
 
 [nix]
 channel = "stable-24_05"
 
 [deployment]
-run = ["python3", "-m", "http.server", "5000", "--bind", "0.0.0.0"]
 
 [workflows]
 runButton = "Run"
@@ -17,7 +15,7 @@ mode = "sequential"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "python3 -m http.server 5000 --bind 0.0.0.0"
+args = "python3 cors_http_test_server.py"
 
 [[ports]]
 localPort = 5000
